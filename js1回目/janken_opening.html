@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+<link rel="stylesheet" href="css/opening.css">
+<link rel="stylesheet" href="css/reset.css">
+
+
+<title>GSの刃</title>
+</head>
+
+<body>
+    <main>
+        <section>
+            <div id="start">
+                <div id="logo">
+                    <img src="img/title.png" alt="タイトル">
+                </div>
+                <div id="newgame" class="newgame pikapika">
+                    <p><a onclick="sound()">ニューゲーム</a></p>
+                </div>
+            </div>
+            <audio id="sound" preload="auto">
+                <source src="sound/newgame.mp3" type="audio/mp3">
+            </audio>
+          </section>
+    </main>
+
+<script>
+// 全体をフェードアウトしてゲーム画面に遷移
+const body = document.getElementsByTagName('body')[0];
+ 
+function fadeOut() {
+    body.classList.add('bodyfadeout');
+}
+ 
+function linkUrl() {
+    location.href = 'janken_teisyutu.html'
+}
+const bt1 = document.getElementById('newgame');
+bt1.addEventListener('click', function() {
+    fadeOut();
+    setTimeout(linkUrl, 4000);
+});
+
+// クリックしたら音が鳴る
+(function (window, $) {
+  'use strict';
+  $.fn.useSound = function (_event, _id) {
+    var se = $(_id);
+    this.on(_event, function(){
+      se[0].currentTime = 0;
+      se[0].play();
+    });
+    return this;
+  };
+})(this, this.jQuery);
+$('.newgame a').useSound('mousedown touchstart', '#sound');
+
+</script>
+</body>

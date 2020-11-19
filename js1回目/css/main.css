@@ -1,0 +1,192 @@
+@charset "utf-8";
+
+html{
+    font-size: 62.5%;
+
+}
+
+body{
+    color: #333333;
+    font-family:"Open Sans",'ヒラギノ角ゴ ProN W3', Hiragino Kaku Gothic ProN, "メイリオ", Meiryo, sans-serif;
+    font-size: 1.6rem;
+}
+
+img{
+    max-width: 100%;
+    height: auto;
+}
+
+
+
+/* sagyou */
+
+
+#bgi img{
+    position: relative;
+    width: 100%;
+    max-height: auto;
+    object-fit: cover;
+    width: 100vw;
+}
+
+
+#oni{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate3d(-50%,-50%,0);
+    width: 20vw;
+}
+
+#kimetsu{
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    transform: translate3d(-50%,-50%,0);
+    width: 100px;
+    padding: 0 0 50px 0;
+}
+
+#zenitsu-img{
+    margin: 20px 0;
+    width: 100%;
+    height: auto;
+}
+
+#tanjiro-img{
+    margin: 20px 0;
+    width: 80%;
+    height: auto;
+}
+
+#inosuke-img{
+    margin: 20px 0;
+    width: 80%;
+    height: auto;
+}
+
+#hekireki{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+    display: none;
+}
+
+#seiseiruten{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+    display: none;
+}
+
+#kuizaki{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+    display: none;
+}
+
+#command{
+    display: flex;
+}
+
+#item{
+    width: 33.333%;
+    background: linear-gradient(#5766b7, #080e64);
+    color: #ffffff;
+    font-size: 2.0rem;
+    height: 250px;
+    border: solid 8px #cdcdcd;
+    border-radius: 14px;
+}
+
+#item2{
+    width: 33.333%;
+    background: linear-gradient(#5766b7, #080e64);
+    color: #ffffff;
+    font-size: 2.0rem;
+    height: 250px;
+    border: solid 8px #cdcdcd;
+    border-radius: 14px;}
+    
+
+#item3{
+    width: 33.333%;
+    background: linear-gradient(#5766b7, #080e64);
+    color: #ffffff;
+    font-size: 2.0rem;
+    height: 250px;
+    border: solid 8px #cdcdcd;
+    border-radius: 14px;}
+
+.item-text{
+    padding: 20px 0 0 30px;
+    font-size: 2vw;
+}
+
+#hover4{
+    color: firebrick;
+    font-weight: bold;
+}
+#hover5{
+    color: firebrick;
+    font-weight: bold;
+}
+#hover6{
+    color: firebrick;
+    font-weight: bold;
+}
+
+.font-color{
+    color: #ffd700;
+}
+
+#color-change{
+    color: #ffd700;
+    font-weight: bold;
+}
+
+#color-change2-1{
+    color: #ffd700;
+    font-weight: bold;
+}
+
+#color-change3-1{
+    color: #ffd700;
+    font-weight: bold;
+}
+
+#id-item-text3{
+    color: firebrick;
+    font-weight: bold;
+}
+
+
+/* #item2 + #item3 > #color-change1-1,
+#item2.move + #item3 > #color-change {
+    display: none;
+}
+
+#item2 + #item3 > #color-change,
+#item2.move + #item3 > #color-change1-1 {
+    display: block;
+} */
+
+
+
+
+/* #item2 + #item3 > #color-change2-1,
+#item2.move + #item3 > #color-change2 {
+    display: none;
+}
+
+#item2 + #item3 > #color-change2,
+#item2.move + #item3 > #color-change2-1 {
+    display: block;
+} */
+
+
+/* ここまで */

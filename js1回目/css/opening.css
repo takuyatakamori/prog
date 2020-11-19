@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+html{
+    font-size: 62.5%;
+
+}
+
+body{
+    color: #333333;
+    font-family:"Open Sans",'ヒラギノ角ゴ ProN W3', Hiragino Kaku Gothic ProN, "メイリオ", Meiryo, sans-serif;
+    font-size: 1.6rem;
+    transition: all 3s;
+    -webkit-animation: fadeIn 1.5s ease 0s 1 normal;
+    animation: fadeIn 1.5s ease 0s 1 normal;
+}
+ 
+.bodyfadeout {
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0
+    }
+
+    100% {
+      opacity: 1
+    }
+  }
+
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0
+    }
+
+    100% {
+      opacity: 1
+    }
+  }
+
+img{
+    max-width: 100%;
+    height: auto;
+}
+
+#start{
+    text-align: center;
+}
+#logo{
+    width: 50%;
+    height: auto;
+    object-fit: cover;
+    margin: 0 auto;
+}
+#newgame{
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.pikapika{
+    animation: pika2 1s infinite alternate;
+  }
+  @keyframes pika2{
+    from{opacity: 1;} 
+    to{opacity:0;}
+  }

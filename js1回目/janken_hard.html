@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+<link rel="stylesheet" href="css/hard.css">
+<link rel="stylesheet" href="css/reset.css">
+
+
+<title>GSの刃ー無惨篇ー</title>
+</head>
+<body>
+
+<!-- <header>
+  <h1>じゃんけん</h1>
+</header> -->
+
+<main>
+  <section>
+    <div id="main-img">
+      <p id="bgi">
+        <img src="img/bg03.jpg" alt="背景">
+      </p>
+      <div id="character-img">
+        <div id="oni">
+          <img src="img/muzan.png" alt="無惨">
+        </div>
+        <div id="kimetsu">
+          <p id="zenitsu-img"><img src="img/zenitsu.png" alt="善逸"></p>
+          <p id="tanjiro-img"><img src="img/tanjiro.png" alt="炭治郎"></p>
+          <p id="inosuke-img"><img src="img/inosuke.png" alt="猪之助"></p>
+        </div>
+        <div>
+          <p id="hekireki"><img src="img/hekireki.jpg" alt="霹靂一閃"></p>
+          <p id="seiseiruten"><img src="img/seiseiruten.jpg" alt="生々流転"></p>
+          <p id="kuizaki"><img src="img/kuizaki.jpg" alt="喰い裂き"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div>
+      <ul id="command">
+        <li id="item">
+          <p id="id-item-text" class="item-text">鬼舞辻無惨</p>
+          <p id="id-item-text1" class="item-text"></p>
+          <p id="id-item-text2" class="item-text"></p>
+          <p id="id-item-text3" class="item-text"></p>
+        </li>
+        <li id="item2">
+          <p id="hover" class="item-text">殴る（ぐう）</p>
+          <p id="hover2" class="item-text">目潰し（ちょき）</p>
+          <p id="hover3" class="item-text">張り手（ぱあ）</p>
+          <p id="hover4" class="item-text"><a onclick="sound()">雷の呼吸</a></p>
+          <p id="hover5" class="item-text"><a onclick="sound()">水の呼吸</a></p>
+          <p id="hover6" class="item-text"><a onclick="sound()">獣の呼吸</a></p>
+          <audio id="sound1" preload="auto">
+            <source src="sound/zenitsu.mp3" type="audio/mp3">
+          </audio>
+          <audio id="sound2" preload="auto">
+            <source src="sound/tanjiro.mp3" type="audio/mp3">
+          </audio>
+          <audio id="sound3" preload="auto">
+            <source src="sound/inosuke.mp3" type="audio/mp3">
+          </audio>
+        </li>
+        <li id="item3">
+          <p id="color-change" class="item-text">ぜんいつ</p>
+          <p id="color-change2" class="item-text">たんじろう</p>
+          <p id="color-change3" class="item-text">いのすけ</p>
+        </li>        
+      </ul>
+    </div>
+  </section>
+
+<!-- ポップアップダイアログ -->
+<!--ダイアログの内容-->
+<div id="mydialog" title="残念！">
+  また遊んでね！
+</div>
+</main>
+
+<footer></footer>
+
+<script>
+
+//マウスオンの動き
+// hover
+$("#hover").on("mouseover",function(){
+    $("#hover").css({
+        color: "#ffd700",
+    });
+});
+//マウスアウトしたときに元の色に戻る
+$("#hover").on("mouseout",function(){
+    $("#hover").css({
+        color: "",
+    });
+});
+
+// hover2
+$("#hover2").on("mouseover",function(){
+    $("#hover2").css({
+        color: "#ffd700",
+    });
+});
+
+//マウスアウトしたときに元の色に戻る
+$("#hover2").on("mouseout",function(){
+    $("#hover2").css({
+        color: "",
+    });
+});
+
+// hover3
+$("#hover3").on("mouseover",function(){
+    $("#hover3").css({
+        color: "#ffd700",
+    });
+});
+
+//マウスアウトしたときに元の色に戻る
+$("#hover3").on("mouseout",function(){
+    $("#hover3").css({
+        color: "",
+    });
+});
+
+// hover4
+$("#hover4").on("mouseover",function(){
+    $("#hover4").css({
+        color: "#ffd700",
+    });
+});
+
+//マウスアウトしたときに元の色に戻る
+$("#hover4").on("mouseout",function(){
+    $("#hover4").css({
+        color: "",
+    });
+});
+
+// hover5
+$("#hover5").on("mouseover",function(){
+    $("#hover5").css({
+        color: "#ffd700",
+    });
+});
+
+//マウスアウトしたときに元の色に戻る
+$("#hover5").on("mouseout",function(){
+    $("#hover5").css({
+        color: "",
+    });
+});
+
+// hover6
+$("#hover6").on("mouseover",function(){
+    $("#hover6").css({
+        color: "#ffd700",
+    });
+});
+
+//マウスアウトしたときに元の色に戻る
+$("#hover6").on("mouseout",function(){
+    $("#hover6").css({
+        color: "",
+    });
+});
+
+
+//クリック時にキャラの文字を変更
+let num = 0;
+$("#item2").on("click",function(){
+  $(this).data("click", ++num);
+    var click = $(this).data("click");
+    if(click == 1){
+      document.getElementById('item3').innerHTML = '<p id="color-change1-1" class="item-text">ぜんいつ</p><p id="color-change2-1" class="item-text">たんじろう</p><p id="color-change3" class="item-text">いのすけ</p>';
+      $("#tanjiro-img").css('width', '100%');
+      $("#zenitsu-img").css('width', '80%');
+    }
+    if(click == 2){
+      document.getElementById('item3').innerHTML = '<p id="color-change1-1" class="item-text">ぜんいつ</p><p id="color-change2" class="item-text">たんじろう</p><p id="color-change3-1" class="item-text">いのすけ</p>';
+      $("#inosuke-img").css('width', '100%');
+      $("#tanjiro-img").css('width', '80%');
+    }
+    if(click == 3){
+      document.getElementById('item3').innerHTML = '<p id="color-change" class="item-text">ぜんいつ</p><p id="color-change2" class="item-text">たんじろう</p><p id="color-change3" class="item-text">いのすけ</p>';
+      $("#zenitsu-img").css('width', '100%');
+      $("#inosuke-img").css('width', '80%');
+      num = 0;
+    }
+});
+
+//必殺技を表示
+let num2 = 0;
+document.getElementById("hover4").style.display ="none";
+document.getElementById("hover5").style.display ="none";
+document.getElementById("hover6").style.display ="none";
+$("#item2").on("click",function(){
+  $(this).data("click", ++num2);
+    const click = $(this).data("click");
+    const hover4 = document.getElementById("hover4");
+    const hover5 = document.getElementById("hover5");
+    const hover6 = document.getElementById("hover6");
+    if(click == 1){
+      hover6.style.display ="none";
+    }
+    if(click == 3){
+      hover4.style.display ="block";
+    }
+    if(click == 4){
+      hover4.style.display ="none";
+      hover5.style.display ="block";
+    }
+    if(click == 5){
+      hover5.style.display ="none";
+      hover6.style.display ="block";
+      num2 = 0;
+    }
+});
+
+// 必殺技の時の音
+(function (window, $) {
+  'use strict';
+  $.fn.useSound = function (_event, _id) {
+    var se = $(_id);
+    this.on(_event, function(){
+      se[0].currentTime = 0;
+      se[0].play();
+    });
+    return this;
+  };
+})(this, this.jQuery);
+$('#hover4 a').useSound('mousedown touchstart', '#sound1');
+
+(function (window, $) {
+  'use strict';
+  $.fn.useSound = function (_event, _id) {
+    var se = $(_id);
+    this.on(_event, function(){
+      se[0].currentTime = 0;
+      se[0].play();
+    });
+    return this;
+  };
+})(this, this.jQuery);
+$('#hover5 a').useSound('mousedown touchstart', '#sound2');
+
+(function (window, $) {
+  'use strict';
+  $.fn.useSound = function (_event, _id) {
+    var se = $(_id);
+    this.on(_event, function(){
+      se[0].currentTime = 0;
+      se[0].play();
+    });
+    return this;
+  };
+})(this, this.jQuery);
+$('#hover6 a').useSound('mousedown touchstart', '#sound3');
+
+// 必殺技のエフェクト
+$("#hover4").click(function() {
+		// フェードin
+		$("#hekireki").fadeIn(10);
+    setTimeout(function() {
+    $("#hekireki").fadeOut(10);
+    }, 8000);
+	});
+
+  $("#hover5").click(function() {
+		// フェードin
+		$("#seiseiruten").fadeIn(10);
+    setTimeout(function() {
+    $("#seiseiruten").fadeOut(10);
+    }, 5000);
+	});
+
+  $("#hover6").click(function() {
+		// フェードin
+		$("#kuizaki").fadeIn(10);
+    setTimeout(function() {
+    $("#kuizaki").fadeOut(10);
+    }, 6000);
+	});
+
+
+// ダイアログの初期設定
+$(function(){
+  $("#mydialog").dialog({
+    autoOpen: false,  // 自動的に開かないように設定
+    width: 500,       // 横幅のサイズを設定
+    modal: true,      // モーダルダイアログにする
+    buttons: [        // ボタン名 : 処理 を設定
+    {
+        text: 'タイトルに戻る',
+        click: function linkUrl(){
+          location.href = 'janken_opening.html'
+        }
+      }
+    ]
+  });
+})
+
+
+//-- じゃんけん用のSCRIPT ここから --
+//HPの設定
+let hp = 10; 
+//グーをクリックした時
+$("#hover").on("click",function(){
+  //乱数（1~3）
+  const r = Math.ceil(Math.random()*3);
+  $("#id-item-text1").text("真っ直ぐ殴りかかった！");
+
+  //if分岐処理
+  let gu2 = "";
+  if(r==1){
+    $("#id-item-text2").text("無駄無駄無駄ぁ！");
+    const atk = 1;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+    }
+  }else if(r==2){
+    $("#id-item-text2").text("私に勝てませんよ？");
+    const atk = 3;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+      $(function(){
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+      })  
+    }
+  }else{
+    $("#id-item-text2").text("弱いですね...");
+  }
+});
+
+//チョキをクリックした時
+$("#hover2").on("click",function(){
+  //乱数（1~3）
+  const r = Math.ceil(Math.random()*3);
+  $("#id-item-text1").text("不意をついた目潰しだ！");
+
+  //if分岐処理
+  let cho2 = "";
+  if(r==1){
+    cho2 = '無駄無駄無駄ぁ！'
+  }else if(r==2){
+    cho2 = '弱いですね...'
+    const atk = 1;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+    }
+  }else{
+    cho2 = '私に勝てませんよ？'
+    const atk = 3;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+    }
+  }
+  //表示処理
+  $("#id-item-text2").text(cho2);
+
+  
+});
+
+//パーをクリックした時
+$("#hover3").on("click",function(){
+  //乱数（1~3）
+  const r = Math.ceil(Math.random()*3);
+  $("#id-item-text1").text("力士気取りの張り手だ！");
+
+  //if分岐処理
+  let par2 = "";
+  if(r==1){
+    par2 = '弱いですね...'
+    const atk = 3;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+    }
+  }else if(r==2){
+    par2 = '無駄無駄無駄ぁ！'
+  }else{
+    par2 = '私に勝てませんよ？'
+    const atk = 1;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+    }
+  }
+  //表示処理
+  $("#id-item-text2").text(par2);
+});
+
+
+//必殺技をクリックした時
+$("#hover4").on("click",function(){
+  //乱数（1~3）
+  const r = Math.ceil(Math.random()*3);
+  $("#id-item-text1").text("全く効かない！");
+
+  //if分岐処理
+  if(r>=1){
+    const atk = 2;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+    }
+  }
+  //表示処理
+  $("#id-item-text2").text("さようなら");
+});
+
+$("#hover5").on("click",function(){
+  //乱数（1~3）
+  const r = Math.ceil(Math.random()*3);
+  $("#id-item-text1").text("全く効かない！");
+
+  //if分岐処理
+  if(r>=1){
+    const atk = 2;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+    }
+  }
+  //表示処理
+  $("#id-item-text2").text("さようなら");
+});
+
+$("#hover6").on("click",function(){
+  //乱数（1~3）
+  const r = Math.ceil(Math.random()*3);
+  $("#id-item-text1").text("全く効かない！");
+
+  //if分岐処理
+  if(r>=1){
+    const atk = 2;
+    hp = hp + atk;
+    console.log(hp);
+    if(hp>=20){
+      $("#id-item-text3").text("全滅した。");
+      $('#kimetsu').fadeOut('normal');
+        $(function(){
+        // ダイアログを表示する
+        $("#mydialog").dialog("open");
+        })
+    }
+  }
+  //表示処理
+  $("#id-item-text2").text("さようなら");
+});
+
+
+    
+    
+    
+
+</script>
+</body>
+</html>
