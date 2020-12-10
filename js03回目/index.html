@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Sawarabi+Mincho" rel="stylesheet">
+<title>Chatアプリ</title>
+</head>
+<body>
+
+<!-- コンテンツ表示画面 -->
+  <div class="logo">
+    <img src="imgs/bgi.jpg" alt="背景">
+    <div class="logoWrapper">
+      <img src="imgs/logo.png" alt="logo">
+    </div>
+  </div>
+  <div class="outputWrapper">
+    <div id="output" class="output"></div>
+    <div class="mapWrapper">
+      <h1>あなたの現在地
+        <select id="type">
+            <option value="load" >load</option>
+            <option value="aerial">aerial</option>
+            <option value="canvasDark">canvasDark</option>
+            <option value="canvasLight">canvasLight</option>
+            <option value="birdseye">birdseye</option>
+            <option value="grayscale">grayscale</option>
+            <option value="streetside">streetside</option>
+        </select>
+      </h1>
+      <div id="myMap" class="map"></div>   
+    </div>
+  </div>
+  <div class="wrapper">
+    <input type="text" id="uname" class="name" placeholder="お名前">
+    <textarea id="text" cols="30" rows="3" class="textin" placeholder="ご自由にどうぞ"></textarea>
+    <div class="honyaku">
+      <p>▼翻訳結果が出ます▼</p>
+      <div id="english" class="tr"></div>
+    </div>
+    <div class="selectionWrapper">
+      <p class="selection-title">好きなひとを選んでね</p>
+      <div class="selection-group icon">
+        <input id="a" type="radio" name="rate" value="a">
+        <label for="a" class="imgs" data-img="0">
+          <img src="imgs/tanjiro.png" width="50">
+        </label>
+        <input id="b" type="radio" name="rate" value="b">
+        <label for="b" class="imgs" data-img="1">
+          <img src="imgs/nezuko.png" width="50">
+        </label>
+        <input id="c" type="radio" name="rate" value="c">
+        <label for="c" class="imgs" data-img="2">
+          <img src="imgs/zenitsu.png" width="50">
+        </label>
+
+        <input id="d" type="radio" name="rate" value="d">
+        <label for="d" class="imgs" data-img="3">
+          <img src="imgs/inosuke.png" width="50">
+        </label>
+      </div>
+    </div>
+    <div class="iroWrapper">
+      <p class="tab-title">好きな色を選んでね</p>
+      <div class="iro">
+        <input id="tab-01" type="radio" name="tab" class="tab-switch" checked="checked" /><label class="tab-label grass" for="tab-01" data-color="0">みどり</label>
+        <input id="tab-02" type="radio" name="tab" class="tab-switch" /><label class="tab-label aqua" for="tab-02" data-color="1">あお</label>
+        <input id="tab-03" type="radio" name="tab" class="tab-switch" /><label class="tab-label orange" for="tab-03" data-color="2">だいだい</label>
+        <input id="tab-04" type="radio" name="tab" class="tab-switch" /><label class="tab-label pink" for="tab-04" data-color="3">もも</label>
+        <input id="tab-05" type="radio" name="tab" class="tab-switch" /><label class="tab-label red" for="tab-05" data-color="4">あか</label>
+      </div>
+    </div>
+    <div class="btnWrapper">
+        <button id="send" class="btn">おくる</button>
+    </div>
+  </div>
+
+
+<!--/ コンテンツ表示画面 -->
+	
+
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- JQuery -->
+
+<!-- BingMap -->
+<script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AkAbdU46BJ310zdyAb0hT1ILOx58Vm7reoyReIDSkEoYW9Csmoihoe2-uXxD2AvO' async defer></script>
+<!-- BingMap -->
+
+<!--** 以下Firebase **-->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDxVs7AtXTcuBEc9-a9u6PaoCeXzsADCqw",
+    authDomain: "gsdemo-27c0f.firebaseapp.com",
+    databaseURL: "https://gsdemo-27c0f.firebaseio.com",
+    projectId: "gsdemo-27c0f",
+    storageBucket: "gsdemo-27c0f.appspot.com",
+    messagingSenderId: "727685058428",
+    appId: "1:727685058428:web:f26b4b6020e458319b1ef9"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  //ref()のなかにディレクトリ構造を書くとそのデータ構造で保存できます 
+  const ref = firebase.database().ref();
+
+  //アイコン処理
+  let d = 0;
+  const img = ["tanjiro.png","nezuko.png","zenitsu.png","inosuke.png"];
+  $(".imgs").on("click", function(){
+    d = $(this).attr("data-img");
+  });
+
+  //カラー処理
+  let cl = 0;
+  const iro = ["chat-grass","chat-aqua","chat-orange","chat-pink","chat-red"];
+  $(".tab-label").on("click", function(){
+    cl = $(this).attr("data-color");
+  });
+
+  // -- 翻訳処理 --
+  $(function() {
+  
+  // 文字が入力されたらイベント発火
+  
+      $("#text").change(function() {
+  
+  // 認証トークンを取得するための関数 [getToken] を定義
+  // http://docs.microsofttranslator.com/oauth-token.html
+  
+        const getToken = function() {
+          const defer = $.Deferred();
+          $.ajax({
+            url: 'https://japaneast.api.cognitive.microsoft.com/sts/v1.0/issueToken',
+            type: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/jwt',
+              'Ocp-Apim-Subscription-Key': 'bc7349df49764d73b09276a257b784ff',
+            },
+          }).done(function(data) {
+  
+              const token = data;
+              defer.resolve(token);
+  
+          });
+              return defer.promise();
+        };
+  
+  // 関数 [getToken] 実行後、取得したトークンを 引き渡す
+  // フォームから入力したデータとともに、 Microsoft Translator テキストAPIへ送信
+  
+        $.when(getToken()).done(function(token) {
+          const key = 'Bearer ' + token;
+          const text = $("#text").val();
+          const response = $.ajax({
+            url: 'https://api.microsofttranslator.com/v2/http.svc/Translate',
+            type: 'GET',
+            data: {
+              'appid': key,
+              'Accept': 'application/xml',
+              'text': text,
+              'to': 'en',
+            },
+          async: false,
+          })
+  
+  // Translator テキスト APIを通じて取得したデータから、翻訳語が含まれるプロパティを取得
+  // replace関数でタグを除去し、翻訳データのみを抽出して表示する
+  
+          const data = response.responseText;
+  
+          const translation = data.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '');
+  
+          $("#english").text(translation);
+        })
+      })
+    })
+
+// -- 翻訳処理 ここまで--
+
+// -- map処理 ここから--
+
+  let map, typeid, lat, lon;
+//1．位置情報の取得に成功した時の処理
+  function mapsInit(position) {
+    //lat=緯度、lon=経度 を取得
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+    map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(lat, lon), //Location center position
+            mapTypeId: Microsoft.Maps.MapTypeId.load, //Type: [load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
+            zoom: 18  //Zoom:1=zoomOut, 20=zoomUp[ 1~20 ]
+            
+        });
+
+    let center = map.getCenter();
+
+    let pin = new Microsoft.Maps.Pushpin(center, {
+        icon: 'imgs/pin.png',  //base64,SVG,canvas,iframe
+        anchor: new Microsoft.Maps.Point(20, 20)  //position move
+    });
+
+    //Add the pushpin to the map
+    map.entities.push(pin);
+
+};
+
+document.getElementById("type").onchange = function(){
+        typeid = this.value; //selectboxの値を取得
+        if(typeid == "load") type = {mapTypeId: Microsoft.Maps.MapTypeId.load};
+        if(typeid == "aerial") type = {mapTypeId: Microsoft.Maps.MapTypeId.aerial};
+        if(typeid == "canvasDark") type = {mapTypeId: Microsoft.Maps.MapTypeId.canvasDark};
+        if(typeid == "canvasLight") type = {mapTypeId: Microsoft.Maps.MapTypeId.canvasLight};
+        if(typeid == "birdseye") type = {mapTypeId: Microsoft.Maps.MapTypeId.birdseye};
+        if(typeid == "grayscale") type = {mapTypeId: Microsoft.Maps.MapTypeId.grayscale};
+        if(typeid == "streetside") type = {mapTypeId: Microsoft.Maps.MapTypeId.streetside};
+        //add type
+        map.setView(type);
+    }
+
+
+//2． 位置情報の取得に失敗した場合の処理
+function mapsError(error) {
+  let e = "";
+  if (error.code == 1) { //1＝位置情報取得が許可されてない（ブラウザの設定）
+    e = "位置情報が許可されてません";
+  }
+  if (error.code == 2) { //2＝現在地を特定できない
+    e = "現在位置を特定できません";
+  }
+  if (error.code == 3) { //3＝位置情報を取得する前にタイムアウトになった場合
+    e = "位置情報を取得する前にタイムアウトになりました";
+  }
+  alert("エラー：" + e);
+};
+
+//3.位置情報取得オプション
+const set ={
+  enableHighAccuracy: true, //より高精度な位置を求める
+  maximumAge: 20000,        //最後の現在地情報取得が20秒以内であればその情報を再利用する設定
+  timeout: 10000            //10秒以内に現在地情報を取得できなければ、処理を終了
+};
+
+function GetMap() {
+    //Main:位置情報を取得する処理 //getCurrentPosition :or: watchPosition
+    navigator.geolocation.getCurrentPosition(mapsInit, mapsError, set);
+
+};
+
+// -- map処理 ここまで--
+
+  //送信イベント
+  $("#send").on("click", function(){
+      const uname = $("#uname").val();
+      const text  = $("#text").val();
+      const english = document.getElementById("english");
+      const date  = new Date();
+      const year  = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day   = date.getDate();
+      const hours = date.getHours();
+      const min   = date.getMinutes();
+      const stamp = year + '年' + month + '月' + day + '日' + hours + '時' + min + '分';
+      const msg = {
+        uname: uname,  //送信名：値
+        text: text,  //送信名：値
+        english: english.textContent, 
+        stamp: stamp,
+        lat: lat,
+        lon: lon,
+        color: cl,
+        icon: d
+      };
+      ref.push(msg); //サーバーにプッシュ（送信）
+  });
+
+  //enterで送信イベント
+  $("#text").on("keydown", function(e){
+    if(e.keyCode==13){
+      const uname = $("#uname").val();
+      const text = $("#text").val();
+      const english = document.getElementById("english");
+      const date  = new Date();
+      const year  = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day   = date.getDate();
+      const hours = date.getHours();
+      const min   = date.getMinutes();
+      const stamp = year + '年' + month + '月' + day + '日' + hours + '時' + min + '分';
+      const msg = {
+        uname: uname,  //送信名：値
+        text: text,  //送信名：値
+        english: english.textContent, 
+        stamp: stamp,
+        lat: lat,
+        lon: lon,
+        color: cl,
+        icon: d
+      };
+      ref.push(msg); //サーバーにプッシュ（送信）      
+    }
+  });
+
+  //受信イベント
+  ref.on("child_added", function(data){
+    const v = data.val(); //dataオブジェクトの中のdata取得
+    const k = data.key; //KEYを取得（削除に必要らしい）
+    const h = '<div class="chat"><div class="chat-heading '+iro[v.color]+'"><p class="chat-title">'+v.uname+'</p></div><div class="chat-body">'+v.text+'<br>'+v.english+'<p class="outimg"><img src="imgs/'+img[v.icon]+'" width="50"><a href="https://www.google.com/maps?q='+v.lat+','+v.lon+'" target="_blank" class="ichi"><img src="imgs/fukidashi.png" alt="hukidashi" class="hukidashi"></a></p></div><div class="stamp">'+v.stamp+'</div></div>';
+    // const h = '<div class="chat"><div class="chat-heading '+iro[v.color]+'"><p class="chat-title">'+v.uname+'</p></div><div class="chat-body">'+v.text+'<br>'+v.english+'<br><p class="ichiWrapper"><a href="https://www.google.com/maps?q='+v.lat+','+v.lon+'" target="_blank" class="ichi">此処にいるよ</a></p><p class="outimg"><img src="imgs/'+img[v.icon]+'" width="50"></p></div><div class="stamp">'+v.stamp+'</div></div>';
+    $("#output").append(h);
+    //最新へスクロール
+    const tdiv = document.getElementById( "output" );
+    tdiv.scrollTop = tdiv.scrollHeight;
+  });
+</script>
+
+<footer>created by Takuchan of G'sACADEMIY UNIT_SAPPORO_DEV1</footer>
+</body>
+</html>

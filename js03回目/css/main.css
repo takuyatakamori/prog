@@ -1,0 +1,295 @@
+@charset "utf-8";
+* {
+    margin: 0px;
+    padding: 0px;
+}
+html{
+    font-size: 62.5%;
+    background-color: #f1f2f6;
+}
+
+body{
+    color: #333333;
+    font-family:"Open Sans","Sawarabi Mincho",'ヒラギノ角ゴ ProN W3', Hiragino Kaku Gothic ProN, "メイリオ", Meiryo, sans-serif;
+    font-size: 1.6rem; 
+    margin: 0 auto;  
+}
+
+
+
+/* .wrapper{
+    max-width: 1140px;
+} */
+
+h1{
+    background-color: rgb(83, 81, 81);
+    padding:0;
+    margin:0;
+    font-size:100%;
+    color:rgb(255, 255, 255);
+    padding: 10px;
+}
+
+.logo{
+    text-align: center;
+    position: relative;
+}
+
+.logoWrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+}
+
+.outputWrapper{
+    display: flex;
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+.output{
+    height: 500px;
+    overflow: auto;
+    border: 1px solid #aab2bd;
+    margin: 10px 10px 20px 10px;
+    border-radius: 4px;
+    padding: 10px 0 0;
+    width: 50%;
+}
+
+.mapWrapper{
+    height: 510px;
+    overflow: auto;
+    border: 1px solid #aab2bd;
+    margin: 10px 10px 20px 10px;
+    border-radius: 4px;
+    width: 50%; 
+}
+
+.chat{
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -webkit-border-radius: 4px;
+    margin: 0 10px 20px;
+}
+
+.chat-heading{
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+}
+
+.chat-grass{
+    background-color: #8cc152;
+    border-color: #8cc152; 
+}
+
+.chat-aqua{
+    background-color: #4FC1E9;
+    border-color: #4FC1E9; 
+}
+
+.chat-orange{
+    background-color: #FFCE54;
+    border-color: #FFCE54; 
+}
+
+.chat-pink{
+    background-color: #EC87C0;
+    border-color: #EC87C0; 
+}
+
+.chat-red{
+    background-color: #ED5565;
+    border-color: #ED5565; 
+}
+
+.chat-body{
+    padding: 15px;
+}
+
+.stamp{
+    padding: 15px;
+    font-size: 1.2rem;
+}
+
+.wrapper{
+    max-width: 1140px;
+    margin: 10px auto;
+}
+
+.name{
+    color: #434a54;
+    border-color: #aab2bd;
+    border-radius: 4px;
+    border: 1px solid #aab2bd;
+    background-color: #fff;
+    height: 34px;
+    margin: 0 0 10px 10px;
+    font-size: 1.6rem;
+    padding: 0 0 0 5px;
+    font-family: "Sawarabi Mincho";
+}
+
+.textin{
+    color: #434a54;
+    border-color: #aab2bd;
+    border-radius: 4px;
+    border: 1px solid #aab2bd;
+    background-color: #fff;
+    width: 1120px;
+    margin: 0 0px 5px 10px;
+    font-size: 1.6rem;
+    padding: 0 0 0 5px;
+    font-family: "Sawarabi Mincho";
+    box-sizing: border-box;
+}
+
+.honyaku{
+    margin: 0 10px 10px 10px;
+    max-width: 1140px;
+
+}
+
+.tr{
+    margin: 0 0px 20px;
+    border: 1px solid #aab2bd;
+    color: #434a54;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 2.0rem;
+    padding: 0 0 0 5px;
+
+}
+
+.outimg{
+    padding: 15px 0 0 0;
+}
+
+.hukidashi{
+    padding: 0 0 10px 0;
+}
+
+.icon{
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+}
+
+.selectionWrapper{
+    margin: 0 10px 10px 10px;
+    max-width: 1140px;
+}
+
+.selection-title{
+    border-bottom: 1px solid #aab2bd;
+    margin: 0 0 5px 0;
+}
+
+.selection-group input[type="radio"] {
+    display: none;
+  }
+
+/* 画像部分に余白を持たせる */
+label img {
+    margin: 3px;
+    padding: 8px;
+  }
+  
+/* 選択されたラジオボタンの画像の背景をオレンジ色に変える */
+.selection-group input[type="radio"]:checked + label img {
+background: orange;
+}
+
+.iroWrapper{
+    margin: 0 10px 10px 10px;
+}
+
+.iro{
+    margin: 0 0 30px 0;
+    display: inline-block;
+
+}
+
+.tab-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tab-label {
+    color: White;
+    background: LightGray;
+    margin-right: 5px;
+    padding: 10px 12px;
+    order: -1;
+    border-radius: 4px;
+}
+
+/* アクティブなタブ */
+.tab-switch:checked+.grass {
+    background: #8cc152;
+}
+
+.tab-switch:checked+.aqua {
+    background: #4FC1E9;
+}
+
+.tab-switch:checked+.orange {
+    background: #FFCE54;
+}
+
+.tab-switch:checked+.pink {
+    background: #EC87C0;
+}
+
+.tab-switch:checked+.red {
+    background: #ED5565;
+}
+
+.tab-switch:checked+.tab-label+.tab-content {
+     display: block;
+}
+
+/* ラジオボタン非表示 */
+.tab-switch {
+    display: none;
+}
+
+.tab-title{
+    border-bottom: 1px solid #aab2bd;
+    margin: 0 0 20px 0;
+}
+
+.btn{
+    background-color: #8cc152;
+    border-color: #8cc152;
+    padding: 12px 24px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 2.2rem;
+    font-family: "Sawarabi Mincho";
+    font-weight: bold;
+}
+
+.btn:hover{
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+}
+
+.btnWrapper{
+    text-align: center;
+    margin: 20px;
+}
+
+footer{
+    font-size: 1.2rem;
+    margin: 50px 20px 20px 20px;
+    text-align: center;
+}
