@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main.css">
+    <title>管理物件チェックシート</title>
+</head>
+
+<body>
+    <section>
+        <h1>管理物件チェックシート</h1>
+        <div class="mainWrapper">
+            <div class="drowareaWrapper">
+                <canvas id="drowarea" width="600" height="600" style="border:1px solid gray; background-color:white;"></canvas>
+            </div>
+            <div class="changeWrapper">
+                <div class="upFile">
+                    <p class="title"><img src="img/photo.png" alt="">写真の挿入</p>
+                    <div class="upload">
+                        <label for="file" class="fileColor">
+                            ＋写真の選択
+                            <input type="file" name="file" id="file" class="fileBtn" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="slider">
+                        <span>縮小</span>
+                        <input id="zoom-slider" type="range">
+                        <span>拡大</span>
+                    </div>
+                </div>
+                <div class="line">
+                    <p class="title"><img src="img/pen.png" alt="">線の挿入</p>
+                    <p>
+                        <span>線の色：</span><input type="color" id="colorid" value="#ff0000">
+                        <span style="margin: 0 0 0 10px;">線の太さ：</span><input id="weight" type="range" min="0" max="100" width="200" value="1">
+                    </p>
+                </div>
+                <div class="moji">
+                    <p class="title"><img src="img/text.png" alt="">文字の挿入</p>
+                    <p style="margin: 0 0 10px 0;">
+                        <span>挿入テキスト：</span><input type="text" id="canvas_text" value="" placeholder="文字を入力" size="40" maxlength="20">
+                    </p>
+                    <p>
+                        <span>文字の色：</span><input type="color" id="fcolorid" value="#000000">
+                        <span style="margin: 0 0 0 10px;">文字の大きさ：</span><input type="number" id="fsize" value="32" min="10" max="80"><span>px</span>
+                    </p>
+                    <div class="tate">
+                        <input id="tate-01" type="radio" name="tate" class="tab3-switch" checked="checked" /><label class="tab-label3 small" for="tate-01" data-tate="0">上</label>
+                        <input id="tate-02" type="radio" name="tate" class="tab3-switch" /><label class="tab-label3 middle" for="tate-02" data-tate="1">真ん中</label>
+                        <input id="tate-03" type="radio" name="tate" class="tab3-switch" /><label class="tab-label3 big" for="tate-03" data-tate="2">下</label>
+                    </div>
+                    <button onclick="drawText('preview', 'canvas_text');" class="btn btn-tx">入力</button> 
+                </div>
+                <p class="title"><img src="img/memo.png" alt="">説明文（メモ）</p>
+                <div class="textWrapper">
+                    <textarea id="memo"  cols="30" rows="3" class="textin" placeholder="説明文を入力"></textarea>
+                </div>    
+            </div>
+        </div>
+        <div class="buttonWrapper">
+            <button id="save" class="btn">保存</button>
+            <button id="download" class="btn">ダウンロード</button>
+            <button id="clear_btn" class="btn btn-cl">クリア</button>
+        </div>
+        <div id="result">
+            <p class="titleRisult">note</p>
+            <!-- <div class="resultWrapper">
+                <img src="img/a.jpg" alt="画像" class="tokoimg">
+                <p class="loadMemo">
+                    俺はジャイアンだ。
+                </p>
+            </div>
+            <div class="resultWrapper" id="result-Wrapper">
+                <img src="img/a.jpg" alt="画像" class="tokoimg">
+                <div>
+                <p class="loadMemo" id="load-memo">
+                    俺はジャイアンだ。
+                </p>
+                <button class="delete taiou">
+                    対応済み
+                </button>
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+<script src="js/jquery-2.1.3.min.js"></script>
+
+<script>
+        //初期化(変数letで宣言)
+        let canvas_mouse_event = false; //スイッチ [ true=線を引く, false=線は引かない ]  ＊＊＊
+        let oldX = 0; //１つ前の座標を代入するための変数
+        let oldY = 0; //１つ前の座標を代入するための変数
+        let bold_line = 1; //ラインの太さをここで指定
+        let color = "#ff0000"; //ラインの色をここで指定
+        let fcolor = "#000000"; //fontカラーの指定
+        let fsize = "32"; //fontサイズの指定
+
+        const can = $("#drowarea")[0];
+        const ctx = can.getContext("2d");
+
+        //背景を白にする
+        ctx.beginPath(); //x=0,y=0
+        ctx.fillStyle="#fff"; 
+        ctx.rect(0, 0, can.width, can.height); 
+        ctx.fill();
+
+
+        // can.width = canvasWidth;
+        // can.height = canvasHeight;
+        const file = document.getElementById("file");
+        let uploadImgSrc = "";
+
+        //Fileアップロード
+        function loadLocalImage(e) {
+        // ファイル情報を取得
+        const fileData = e.target.files[0];
+
+        // 画像ファイル以外は処理を止める
+        if(!fileData.type.match('image.*')) {
+            alert('画像を選択してください');
+            return;
+        }
+
+        // FileReaderオブジェクトを使ってファイル読み込み
+        const reader = new FileReader();
+        // ファイル読み込みに成功したときの処理
+        reader.onload = function() {
+            // Canvas上に表示する
+            uploadImgSrc = reader.result;
+            canvasDraw();
+        }
+        // ファイル読み込みを実行
+        reader.readAsDataURL(fileData);
+        }
+
+    // ファイルが指定された時にloadLocalImage()を実行
+    file.addEventListener('change', loadLocalImage, false);
+
+    // Canvas上に画像を表示する
+    let img;
+    function canvasDraw(imgSrc) {
+        // canvas内の要素をクリアする
+        ctx.clearRect(0, 0, can.width, can.height);
+        // Canvas上に画像を表示
+            img = new Image();
+            img.src = uploadImgSrc;
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, can.width, this.height * (can.width / this.width));
+            }
+    }
+
+        //mousedown：フラグをTrue
+        $(can).on("mousedown",function(e){
+            oldY = e.offsetY;
+            oldX = e.offsetX;
+            canvas_mouse_event = true;
+        });
+
+        //線の色
+        $("#colorid").on("change", function(){
+        const c = $(this).val(); //色値の取得
+        color = c
+        });
+
+        //文字の色
+        $("#fcolorid").on("change", function(){
+        const fc = $(this).val(); //色値の取得
+        fcolor = fc
+        });
+
+        //文字のサイズ
+        $("#fsize").on("change", function(){
+        const fs = $(this).val(); //色値の取得
+        fsize = fs
+        });
+
+        //線の太さ
+        $("#weight").on("change", function(){
+        const r = $(this).val(); //色値の取得
+        bold_line = r
+        });
+
+        //mousemove：フラグがTrueだったら描く ※e：イベント引数取得
+        $(can).on("mousemove",function(e){
+            if(canvas_mouse_event==true){
+                const px = e.offsetX;
+                const py = e.offsetY;
+                ctx.strokeStyle = color; //31行目
+                ctx.lineWidth   = bold_line; //30行目
+                ctx.lineJoin    = "round";
+                ctx.lineCap     = "round";
+                ctx.beginPath(); //初期化
+                ctx.moveTo(oldX,oldY); //開始地点
+                ctx.lineTo(px,py);
+                ctx.stroke();
+                oldX = px; //出発時点を入れ替える
+                oldY = py; //出発時点を入れ替える
+            }
+        });
+
+
+        //mouseup：フラグをfalse
+        $(can).on("mouseup",function(){
+            canvas_mouse_event = false;
+        });
+
+        //mouseout：フラグをfalse
+        $(can).on("mouseout",function(){
+            canvas_mouse_event = false;
+        });
+
+        //#clear_btn：クリアーボタンAction
+        $("#clear_btn").on("click",function(){
+            ctx.beginPath(); //初期化
+            ctx.clearRect(0, 0, can.width, can.height); //領域内を消す
+            ctx.fillStyle="#fff"; 
+            ctx.rect(0, 0, can.width, can.height); 
+            ctx.fill();
+        });
+
+        //テキスト位置処理
+        let tate = 0;
+        const ptate = ["top","center","bottom"];
+        $(".tab-label3").on("click", function(){
+            tate = $(this).attr("data-tate");
+            console.log(tate);
+        });
+
+        //文字を書く
+        function drawText(){
+            const ctx = can.getContext('2d');
+            const text = document.getElementById("canvas_text");
+            //文字のスタイルを指定
+            ctx.font = fsize + "px" + " " + "Meiryo";
+            ctx.fillStyle = fcolor;
+            //文字の配置を指定（左上基準にしたければtop/leftだが、文字の中心座標を指定するのでcenter
+            ctx.textBaseline = 'center';
+            ctx.textAlign = 'center';
+            //座標を指定して文字を描く（座標は画像の中心に）
+            let y;
+            if(tate==0){
+                y = 50;
+            }else if(tate==1){
+                y = (can.height / 2);
+            }else if(tate==2){
+                y = 550;
+            }
+            const x = (can.width / 2);
+            // const x = (can.width / 2);
+            // const y = (can.height / 2);
+
+            ctx.fillText(text.value, x, y);
+        }
+
+        const slider = document.getElementById('zoom-slider');
+        slider.value = 1;
+        // 倍率の最小・最大値
+        slider.min = 0.01;
+        slider.max = 2;
+        // 粒度
+        slider.step = 'any';
+
+        // スライダーが動いたら拡大・縮小して再描画する
+        slider.addEventListener('input', e => {
+            // 一旦クリア 
+            ctx.clearRect(0, 0, can.width, can.height);
+            // 倍率変更
+            const scale = e.target.value;
+            ctx.scale(scale, scale);
+            // 再描画
+            ctx.drawImage(img, 0, 0);
+            // 変換マトリクスを元に戻す
+            ctx.scale(1 / scale, 1 / scale);
+        });
+
+        //canvasのlocalStorage保存
+        $("#save").on("click", function(e){
+            // const result = $("#result > img").length; //imgの数を取得
+            // const key    = result + 1 ; //keyをimgの数+1にする
+            const key    = $("#memo").val();
+            const image  = document.getElementById("drowarea");
+            const base64 = image.toDataURL();
+            const date  = new Date();
+            const year  = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day   = date.getDate();
+            const hours = date.getHours();
+            const min   = date.getMinutes();
+            const stamp = year + '年' + month + '月' + day + '日' + hours + '時' + min + '分';
+            const data  = {
+                data1: base64,
+                data2: stamp
+            };
+            localStorage.setItem(key, JSON.stringify(data)); //データ保存
+            // const addimage = new Image();
+            // addimage.src = base64
+            // addimage.width  = 250;
+            const g = '<div class="resultWrapper" id="result-Wrapper"><img src="'+data.data1+'" alt="画像" class="tokoimg"><div><p class="data2">'+data.data2+'</p><p class="loadMemo" id="load-memo">'+key+'</p><button class="delete taiou">対応済み</button></div></div>';
+            // $("#result").append(addimage);
+            //id+連番をつける
+            $(function(){
+                $(".resultWrapper").each(function(i){
+                $(this).attr('id','resultWrapper' + (i+1));
+                });
+            });
+            $(function(){
+                $(".loadMemo").each(function(i){
+                $(this).attr('id','loadMemoL' + (i+1));
+                });
+            });
+
+            $("#result").append(g);
+        });
+
+        //canvasのリロード
+        for(let i=0; i<localStorage.length; i++){
+            const key    = localStorage.key(i);
+            const data   = JSON.parse(localStorage.getItem(key));
+            // const base64 = localStorage.getItem(key);
+            // const image  = new Image();
+            // image.src    = base64;
+            // image.width  = 250;
+            const g = '<div class="resultWrapper" id="result-Wrapper"><img src="'+data.data1+'" alt="画像" class="tokoimg"><div><p class="data2">'+data.data2+'</p><p class="loadMemo" id="load-memo">'+key+'</p><button class="delete taiou">対応済み</button></div></div>';
+            // $("#result").append(image);
+            $(function(){
+                $(".resultWrapper").each(function(i){
+                $(this).attr('id','resultWrapperL' + (i+1));
+                });
+            });
+            $(function(){
+                $(".loadMemo").each(function(i){
+                $(this).attr('id','loadMemoL' + (i+1));
+                });
+            });
+            $("#result").append(g);
+        }
+
+        //ダウンロード
+        $("#download").on("click", function(){
+            const image  = document.getElementById("drowarea");
+            const base64 = image.toDataURL();
+            let link = document.createElement("a");
+            link.href = base64;
+            link.download = 'sample.jpg';
+            link.click();
+        });
+
+        //1レコードのみ削除
+        $("body").on("click",".delete",function() {
+            const getId  = $(this).prev().attr('id'); //キーになっているテキストのIDを取得
+            console.log(getId);
+            const getId2 = $(this).parent().parent().attr('id'); //消す場所の要素全体のID名を取得
+            console.log(getId2);
+            const key    = document.getElementById(getId).textContent; //キーになっているテキストを取得
+            const name   = document.getElementById(getId2); //ID要素を取得
+            localStorage.removeItem(key) //localstorageの1レコードを削除
+            $(name).remove(); //要素の削除
+        });
+
+</script>
+<footer>created by Takuchan of G'sACADEMIY UNIT_SAPPORO_DEV1</footer>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+@charset "utf-8";
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html{
+    font-size: 62.5%;
+    background-color: #f1f2f6;
+}
+
+body{
+    color: #333333;
+    font-family:"Open Sans","Sawarabi Mincho",'ヒラギノ角ゴ ProN W3', Hiragino Kaku Gothic ProN, "メイリオ", Meiryo, sans-serif;
+    font-size: 1.6rem; 
+    margin: 0 auto;  
+}
+
+h1{
+    text-align: center;
+    margin: 30px;
+}
+
+.mainWrapper{
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 0 20px;
+}
+
+.drowareaWrapper{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#drowarea{
+    margin: 0 auto;
+}
+
+.changeWrapper{
+    width: 50%;
+}
+
+.upFile{
+    margin: 0 0 15px;
+}
+
+.fileColor {
+    background-color: #FFCE54;
+    border-color: #FFCE54;
+    border: 1px solid transparent;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.fileColor:hover{
+    background-color: #F6BB42;
+    border-color: #F6BB42;
+}
+
+.title{
+    border-bottom: solid 1px #333333;
+    font-size: 2.0rem;
+    margin: 0 0 10px;
+}
+
+.title > img{
+    vertical-align: middle;
+    padding: 0 5px 5px 0;
+}
+
+.upload{
+    margin: 0 0 7px;
+}
+
+.line{
+    margin: 0 0 15px;
+}
+
+.moji{
+    margin: 0 0 15px;
+}
+
+input[type=text]{
+    width:300px;
+    height:25px;
+    font-size:1.8rem;
+}
+
+input[type=number]{
+    width:45px;
+    height:25px;
+    font-size:1.8rem;
+}
+
+.tate{
+    margin: 10px 0 15px;
+}
+
+.tab-label3 {
+    color: White;
+    background: LightGray;
+    margin-right: 5px;
+    padding: 5px 12px;
+    order: -1;
+    border-radius: 4px;
+}
+
+/* アクティブなタブ */
+.tab3-switch:checked+.small {
+    background: #4FC1E9;
+}
+
+.tab3-switch:checked+.middle {
+    background: #4FC1E9;
+}
+
+.tab3-switch:checked+.big {
+    background: #4FC1E9;
+}
+
+.tab3-switch:checked+.tab-label3+.tab-content {
+    display: block;
+}
+
+/* ラジオボタン非表示 */
+.tab3-switch {
+    display: none;
+}
+
+.textin{
+    width: 100%;
+    height: auto;
+    color: #434a54;
+    border-color: #aab2bd;
+    border-radius: 4px;
+    border: 1px solid #aab2bd;
+    background-color: #fff;
+    font-size: 2.2rem;
+    padding: 0 0 0 5px;
+    box-sizing: border-box;
+}
+
+.buttonWrapper{
+    text-align: center;
+    padding: 0 0 10px;
+}
+
+
+.resultWrapper{
+    display: flex;
+    max-width: 1400px;
+    margin: 20px auto;
+    position: relative;
+    border-bottom: solid 1px #333333;
+    padding: 0 0 20px;
+}
+
+.titleRisult{
+    border-bottom: double 5px #333333;
+    font-size: 2.8rem;
+    max-width: 1400px;
+    margin:  10px auto;
+    padding: 0 0 0 20px;
+}
+
+.tokoimg{
+    width: 250px;
+    padding: 0 0 0 20px;
+}
+
+.data2{
+    font-size: 1.6rem;
+    margin: 0 0 0 15px;
+    color: #7c7c7c;
+}
+
+.loadMemo{
+    font-size: 2.4rem;
+    margin: 0 0 0 15px;
+}
+
+.taiou{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #5D9CEC;
+    border-color: #5D9CEC;
+    border: 1px solid transparent;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 2.0rem;
+    font-weight: bold;
+    margin: 0 0 20px;
+}
+
+.taiou:hover{
+    background-color: #4A89DC;
+    border-color: #4A89DC;
+}
+
+.btn{
+    background-color: #8cc152;
+    border-color: #8cc152;
+    border: 1px solid transparent;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 2.0rem;
+    font-weight: bold;
+}
+
+.btn:hover{
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+}
+
+.btn-cl{
+    background-color: #CCD1D9;
+    border-color: #CCD1D9;
+}
+
+.btn-cl:hover{
+    background-color: #AAB2BD;
+    border-color: #AAB2BD;
+}
+
+.btn-tx{
+    background-color: #FFCE54;
+    border-color: #FFCE54;
+    font-size: 1.8rem;
+}
+
+.btn-tx:hover{
+    background-color: #F6BB42;
+    border-color: #F6BB42;
+}
+
+footer{
+    font-size: 1.2rem;
+    margin: 50px 20px 20px 20px;
+    text-align: center;
+}
