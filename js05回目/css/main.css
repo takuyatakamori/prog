@@ -1,0 +1,370 @@
+@charset "utf-8";
+html{
+    font-size: 62.5%;
+  }
+
+body{
+    color: #333333;
+    font-family:"Open Sans",'ヒラギノ角ゴ ProN W3', Hiragino Kaku Gothic ProN, "メイリオ", Meiryo, sans-serif;
+    font-size: 1.6rem;
+    padding:0;
+    margin:0;
+}
+
+.mainWrapper{
+  position: relative;
+}
+
+.mainWrapperSub{
+  position: absolute;
+  top: 80%;
+  left: 85%;
+  transform: translate3d(-50%,-50%,0);
+}
+
+.mainimg{
+  display: flex;
+  margin: 0 auto 60px;
+}
+
+.game{
+  width: 200px;
+  animation: key1 .3s ease infinite alternate;
+}
+
+@keyframes key1{
+  0% {transform: translateY(0px);}
+  100% {transform: translateY(-10px);}
+}
+
+#faceWrapper{
+  max-width: 100%;
+}
+
+.title_kimetsu{
+  text-align: center;
+  padding: 0 0 60px;
+  font-size: 2.2rem;
+}
+
+#imageDiv{
+  max-width: 100%;
+  background-color: #F8F5FA;
+  padding: 60px 0;
+}
+
+.videoWrapper{
+  height: 480px;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 40px;
+}
+
+.cameraTxt{
+  text-align: center;
+  margin: 0 0 15px;
+  font-size: 1.2rem;
+}
+
+#video_area{
+  width: 640px;
+  height: 480px;
+  border: solid 1px #aab2bd
+}
+
+.captureTxt{
+  text-align: center;
+  margin: 0 0 15px;
+  font-size: 1.2rem;
+}
+
+#capture_image{
+  width: 640px;
+  height: 480px;
+  border: solid 1px #aab2bd
+}
+
+.btn{
+  text-align: center;
+  margin: 0 0 30px;
+}
+
+#start_btn{
+  background-color: #8cc152;
+  border-color: #8cc152;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+#start_btn:hover{
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+}
+
+.capture_btn{
+  background-color: #8cc152;
+  border-color: #8cc152;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.capture_btn:hover{
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+}
+
+
+#kimetsu{
+  background-color: #EDE7F6;
+  max-width: 100%;
+  padding: 40px 0;
+}
+
+.yokoku{
+font-size: 1.2rem;
+text-align: center;
+}
+
+.kname{
+  display: flex;
+  margin: 0 auto;
+  padding: 0 0 20px;
+}
+
+.kimetsuWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kimageWrapper{
+  text-align: center;
+  padding: 0 0 30px;;
+}
+
+.detailTxt{
+  max-width: 1000px;
+  font-size: 1.2rem;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.genre{
+  text-align: center;
+  font-size: 1.4rem;
+  margin: 20px 0;
+}
+
+.strong{
+  font-size: 2.5rem;
+  color: #D84315;
+}
+
+#shita{
+  transform: rotate(270deg);
+  width: 200px;
+  display:flex;
+  margin: 100px auto;
+}
+
+.title_map{
+  text-align: center;
+  padding: 50px 0 50px;
+  font-size: 2.2rem;
+}
+
+.alert{
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 0 0 10px;
+}
+
+.map{
+  height: 500px;
+  max-width: 100%;
+  margin: 0 0 30px;
+  border: 1px solid #aab2bd;
+}
+
+.searchWrapper{
+  border: 1px solid #aab2bd;
+  border-radius: 4px;
+  margin: 0 30px 30px;
+  padding: 15px 0;
+  max-width: 100%;
+
+}
+
+.checkWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 20px;
+}
+
+.check{
+  font-size: 1.0rem;
+  padding: 0 10px 10px;
+}
+
+.freewordWrapper{
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 0 0 25px;
+}
+
+#freeword{
+	box-sizing: border-box;
+	width: 30%;
+	padding: 0.3em;
+	transition: 0.3s;
+	letter-spacing: 1px;
+	border: none;
+	border-bottom: 2px solid #1b2538;
+  background: transparent;
+  font-size: 1.2rem;
+}
+
+#freeword:focus {
+	border-bottom: 2px solid #da3c41;
+	outline: none;
+}
+
+.voice{
+  background-color: #8cc152;
+  border-color: #8cc152;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.voice>img{
+  vertical-align: text-bottom;
+}
+
+.mike{
+  width: 22px;
+}
+
+.search{
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+#btn{
+  background-color: #8cc152;
+  border-color: #8cc152;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+#btn:hover{
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+}
+
+#btn_c{
+  background-color: #5c5c5c;
+  border-color: #5c5c5c;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+#btn_c:hover{
+  background-color: #383838;
+  border-color: #383838";
+}
+
+.result{
+  width: 100%;
+  margin: 0 auto;
+}
+
+.resultWrapper{
+  display: flex;
+  max-width: 1440px;;
+  margin: 0 30px 10px;
+  padding: 10px 0;
+  border: 1px solid #aab2bd;
+  border-radius: 4px;
+
+}
+
+.detail{
+  padding: 0 10px 0;
+}
+
+.shopImg{
+  padding: 0 0 0 10px;
+}
+.shopName{
+  font-size: 1.8rem;
+  padding: 0 0 5px;
+  margin: 0 0 10px;
+  font-style: bold;
+  border-bottom: 1px solid #333333;
+}
+
+.shopDetail{
+  font-size: 1.0rem;
+  margin: 0 0 15px;
+}
+
+.shopTel{
+  font-size: 1.0rem;
+  padding: 0 0 10px;
+}
+
+.shopAddress{
+  font-size: 1.0rem;
+  padding: 0 0 10px;
+}
+
+.shopUrl{
+  background-color: #488dad;
+  border-color: #488dad;
+  border: 1px solid transparent;
+  padding: 2px 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1.0rem;
+  vertical-align: text-bottom;
+  margin: 0 0 0 5px;
+}
+
+.shopUrl > a {
+  color: #fff;
+
+}
+
+.ftr{
+  font-size: 1.0rem;
+  margin: 50px 20px 20px 20px;
+  text-align: center;
+}

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>G'sの刃ーFaceAPI編</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/sanitize.css">
+<!-- <script src="js/face.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+</head>
+<body>
+<!-- FaceAPI[START] -->
+<section>
+  <div class="mainWrapper">
+    <img src="img/main.png" alt="メインイメージ" class="mainimg">
+    <div class="mainWrapperSub">
+      <a href="../js01/janken_opening.html"><img src="img/game.png" alt="game" class="game"></a>
+    </div>
+  </div>
+  <div id="faceWrapper">
+      <!-- <div id="jsonOutput" style="width:600px; display:table-cell;">
+          Response:<br><br>
+          <textarea id="responseTextArea" class="UIInput" style="width:580px; height:400px;"></textarea>
+      </div> -->
+      <div id="imageDiv">
+        <p class="title_kimetsu">その1.君は「鬼滅の刃」のどのキャラクターの感情に近い？</p>
+        <div class="videoWrapper">
+          <div class="camera">
+            <p class="cameraTxt">▼カメラ▼</p>
+            <video id="video_area" autoplay></video>
+          </div>
+          <div class="capture">
+            <p class="captureTxt">▼キャプチャ▼</p>
+            <canvas id="capture_image"></canvas>
+          </div>
+        </div>
+        <div class="btn">
+          <button id="start_btn">映像表示開始</button>
+          <button onclick="copyFrame()" class="capture_btn">認識実行</button>
+        </div>
+      </div>
+        <div id="kimetsu">
+          <p class="yokoku">ここに結果が出るよ！</p> 
+          <!-- <img src="img/muichirou_t.png" alt="時透無一郎" class="kname">
+          <div class="kimetsuWrapper">
+            <div class="kimageWrapper">
+              <img src="img/muichirou.jpg" alt="無一郎" class="kimage">
+            </div>
+            <div class="detail">
+              <canvas id="myRadarChart" width="500" height="400"></canvas>
+            </div>
+          </div>
+          <p class="detailTxt">常に無表情で他者への関心が希薄な茫洋とした性格。その場とは無関係な事を考えている場合が多く、柱合会議での竈門兄妹の処遇においても「すぐに忘れるのでどちらでも良い」と関心を示さなかった。反面、徹底的な合理主義を貫き、柱としての活動を妨げる者には実力行使もいとわないある種の冷酷さも併せ持つが、これは彼なりの責任感や正義感の裏返しでもあり、決して悪意はない。</p>
+          <p class="genre">そんな君におすすめの料理は<span class="strong">『多国籍料理』</span>だ！</p>
+          <img src="img/shita.png" alt="下矢印" id="shita"> -->
+        </div>
+  </div>
+</section>
+<!-- FaceAPI[END] -->
+
+<section>
+  <!-- MAP[START] -->
+  <p class="title_map">その2.腹が減っては戦はできぬ！さぁ、お店を探そう！</p>
+  <p class="alert">※クリックしたところから半径1km圏内を探すよ！</p>
+  <div id="myMap" class="map"></div>
+  <div id="geocode"></div>
+  <!-- MAP[END] -->
+
+  <div class="wrapper">
+    <div class="searchWrapper">
+      <div class="checkWrapper">
+        <div class="check">
+          <input type="checkbox" id="lunch" name="selsect" value="1">
+          <label for="lunch">
+            ランチ営業
+          </label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="no_smoking" name="selsect" value="1">
+          <label for="no_smoking">
+            禁煙席あり
+          </label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="card" name="selsect" value="1">
+          <label for="card">
+            カード利用可
+          </label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="bottomless_cup" name="selsect" value="1">
+          <label for="bottomless_cup">
+            飲み放題あり
+          </label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="private_room" name="selsect" value="1">
+          <label for="private_room">
+            個室あり
+          </label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="kids_menu" name="selsect" value="1">
+          <label for="kids_menu">
+            キッズメニューあり
+          </label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="wifi" name="selsect" value="1">
+          <label for="wifi">
+            wifiあり
+          </label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="e_money" name="selsect" value="1">
+          <label for="e_money">
+            電子マネー利用可
+          </label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="deliverly" name="selsect" value="1">
+          <label for="deliverly">
+            デリバリーあり
+          </label>
+        </div>
+      </div>
+      <div class="freewordWrapper">
+        <span>フリーワード検索：</span>
+        <input type="textarea" id="freeword" name="freeword" value="">
+        <!-- <input type="button" value="音声入力" onclick="recognition.start()"> -->
+        <button onclick="recognition.start()" class="voice"><img src="img/mike.png" alt="" class="mike"> 音声入力</button>
+      </div>
+      <div class="search">
+        <!-- <input type="button" id="btn" value="検索"><br> -->
+        <button id="btn">検索</button>
+        <button id="btn_c">条件クリア</button>
+      </div>
+    </div>
+    <div id="result">
+      <!-- <div class="resultWrapper">
+        <div class="shopImg">
+          <img src="https://rimage.gnst.jp/rest/img/axdgj9bk0000/t_00em.jpg" alt="店舗画像">
+        </div>
+        <div class="detail">
+          <p class="shopName">
+            <span>おが</span>
+            <button class="shopUrl"><a href="https://r.gnavi.co.jp/h025900/?ak=nnHbPhrgIH2YTA7EV6M6zVPLPuq2QkHtejQx5siV8s4%3D" target="_blank">URL</a></button>
+          </p>
+          <p class="shopDetail">月～木 ディナー：17:00～24:30(L.O.24:00、ドリンクL.O.24:00)
+            日・祝日 17:00～24:00(L.O.23:30、ドリンクL.O.23:30)(ディナー)
+            金・土 ディナー：17:00～翌2:00(L.O.1:30、ドリンクL.O.1:30)(金・土曜日は今迄通り17：00から2：00まで営業時間になっております。)</p>
+          <p class="shopTel">011-242-3328</p>
+          <p class="shopAddress">〒060-0063 北海道札幌市中央区南三条西3 サンスリービル8F</p>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</section>
+
+<script src="js/camera.js"></script>
+<script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=' async defer></script>
+<script src="js/BmapQuery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="./js/recognition.js"></script>
+
+<script>
+
+//faceAPI
+function processImage() {
+	// Replace <Subscription Key> with your valid subscription key.
+	var subscriptionKey = "APIkey";
+
+	var uriBase =
+	"https://URLcognitiveservices.azure.com/face/v1.0/detect";
+
+	// Request parameters.
+	var params = {
+		"returnFaceId": "true",
+		"returnFaceLandmarks": "false",
+		"returnFaceAttributes":
+		"age,gender,headPose,smile,facialHair,glasses,emotion," +
+		"hair,makeup,occlusion,accessories,blur,exposure,noise"
+	};
+
+	// Display the image.
+	var type = 'image/jpeg';
+	var dataurl = capture_image.toDataURL(type);
+	var bin = atob(dataurl.split(',')[1]);
+	var buffer = new Uint8Array(bin.length);
+	for (var i = 0; i < bin.length; i++) {
+		buffer[i] = bin.charCodeAt(i);
+	}
+	var blob = new Blob([buffer.buffer], { type: type });
+
+	// Perform the REST API call.
+	$.ajax({
+		url: uriBase + "?" + $.param(params),
+
+		// Request headers.
+		beforeSend: function (xhrObj) {
+			xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+		},
+
+		processData: false,
+		type: "POST",
+
+		// Request body.
+		data: blob,
+	})
+
+	.done(function (data) {
+		// Show formatted JSON on webpage.
+		// $("#responseTextArea").val(JSON.stringify(data, null, 2));
+		console.log(data);
+		const gender = data[0].faceAttributes.gender;
+		const anger = data[0].faceAttributes.emotion.anger;
+		const fear = data[0].faceAttributes.emotion.fear;
+		const happiness = data[0].faceAttributes.emotion.happiness;
+		const neutral = data[0].faceAttributes.emotion.neutral;
+		const sadness = data[0].faceAttributes.emotion.sadness;
+		const surprise = data[0].faceAttributes.emotion.surprise;
+		if(gender=="male"){
+			if((fear>0.4)){
+        $("#kimetsu").append('<img src="img/zenitsu_t.png" alt="我妻善逸" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/zenitsu.jpg" alt="善逸" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">君は怖がりなのかな？？まるでビビリの善逸のようだね！でも善逸は「信じたいこと」を優先して信じるので多くの人に愛されているよ！善逸に似ている君も愛され上手だと思うよ！</p><p class="genre">そんな君におすすめの料理は<span class="strong">『うなぎ』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("うなぎ");
+			}else if(anger>0){
+        $("#kimetsu").append('<img src="img/rengoku_t.png" alt="煉獄杏寿郎" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/rengoku.jpg" alt="煉獄" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">常に快活な笑顔を浮かべていても心に強い意志を持っているあなたは、まるで炎柱の杏寿郎のようだね。多くの人に多大な影響を与え、尊敬され続けている杏寿郎のように尊敬され続けてもらえるといいね！</p><p class="genre">そんな君におすすめの料理は<span class="strong">『ステーキ』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("ステーキ");
+			}else if(happiness>0){
+        $("#kimetsu").append('<img src="img/tanjirou_t.png" alt="竈門炭治郎" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/tanjirou.jpg" alt="炭治郎" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">笑顔の素敵なあなたは、非常に心優しく常に笑顔で周りのことを気にかけている炭治郎のようだ！ストイックになりすぎて体を壊さないようにね！</p><p class="genre">そんな君におすすめの料理は<span class="strong">『焼き鳥』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("焼き鳥");
+			}else if(surprise>0){
+        $("#kimetsu").append('<img src="img/giyu_t.png" alt="冨岡義勇" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/giyu.jpg" alt="義勇" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">いつも平然な顔をしている君はまるで水柱の義勇のようだ！現実的で冷めた雰囲気を見せ、感情を表に出すことはほとんどないが、根は優しく情に厚い面があるんじゃないか？ちゃんと気持ちは行ったほうがいいぞ！</p><p class="genre">そんな君におすすめの料理は<span class="strong">『鍋』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("鍋");
+			}else if(neutral>sadness){
+        $("#kimetsu").append('<img src="img/muichirou_t.png" alt="時透無一郎" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/muichirou.jpg" alt="無一郎" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">常に無表情で他者への関心が希薄な茫洋とした性格。その場とは無関係な事を考えている場合が多く、柱合会議での竈門兄妹の処遇においても「すぐに忘れるのでどちらでも良い」と関心を示さなかった。反面、徹底的な合理主義を貫き、柱としての活動を妨げる者には実力行使もいとわないある種の冷酷さも併せ持つが、これは彼なりの責任感や正義感の裏返しでもあり、決して悪意はない。</p><p class="genre">そんな君におすすめの料理は<span class="strong">『多国籍料理』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("多国籍");
+			}else{
+        $("#kimetsu").append('<img src="img/inosuke_t.png" alt="嘴平伊之助" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/inosuke.jpg" alt="伊之助" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">君は上半身裸が多いんじゃないか？でも素敵な顔立ちだと思うぞ！困りごとはなさそうだが、もし困ったら高笑いしながら「猪突猛進、猪突猛進」と走り回るといいぞ！</p><p class="genre">そんな君におすすめの料理は<span class="strong">『食べ放題』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("食べ放題");
+			}
+		}else{
+			if((fear>0.4)){
+        $("#kimetsu").append('<img src="img/tamayo_t.png" alt="珠世" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/tamayo.jpg" alt="珠世" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">年齢不詳と言われませんか？または200年以上生きてませんか？お医者さんになることを勧めます。</p><p class="genre">そんなあなたにおすすめの料理は<span class="strong">『焼肉』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("焼肉");
+      }else if(anger>0){
+        $("#kimetsu").append('<img src="img/shinobu_t.png" alt="胡蝶しのぶ" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/shinobu.jpg" alt="しのぶ" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">あなたは常に笑顔を絶やさず、誰に対しても敬語を崩さない物腰柔らかな女性ですね！ただし、言動に見合わない苛烈さや歪んだ価値観を見せることがあるみたいなのでほどほどに。</p><p class="genre">そんな君におすすめの料理は<span class="strong">『海鮮』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("海鮮");
+			}else if(happiness>0){
+        $("#kimetsu").append('<img src="img/mitsuri_t.png" alt="甘露寺蜜璃" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/mitsuri.jpg" alt="蜜璃" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">あなたは社交的で心優しく、繊細な性格の持ち主ですね！非常に惚れっぽく、周囲のあらゆる人物に男女問わずときめいているのではありませんか？気をつけてね。</p><p class="genre">そんなあなたにおすすめの料理は<span class="strong">『タピオカ』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("タピオカ");
+			}else if(surprise>0){
+        $("#kimetsu").append('<img src="img/nezuko_t.png" alt="竈門禰󠄀豆子" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/nezuko.jpg" alt="禰󠄀豆子" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">あなたは家族思いの心優しい性格の女性ですね！あと寝るのが大好きではないですか？これからも表情豊かにたくさんの人に愛されるでしょう！</p><p class="genre">そんなあなたにおすすめの料理は<span class="strong">『ラーメン』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("ラーメン");
+			}else if(neutral>sadness){
+        $("#kimetsu").append('<img src="img/kanawo_t.png" alt="栗花落カナヲ" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/kanawo.jpg" alt="カナヲ" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">感情があまり見えないと言われるかもしれませんが、心の中で多くの感情が渦巻いていますね。それだけ感受性豊かと言うことです！カナヲのように才能豊かなのでこれからも努力を諦めずに！</p><p class="genre">そんなあなたにおすすめの料理は<span class="strong">『寿司』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("寿司");
+			}else{
+        $("#kimetsu").append('<img src="img/aoi_t.png" alt="神崎アオイ" class="kname"><div class="kimetsuWrapper"><div class="kimageWrapper"><img src="img/aoi.jpg" alt="アオイ" class="kimage"></div><div class="detail"><canvas id="myRadarChart" width="500" height="400"></canvas></div></div><p class="detailTxt">しっかり者のあなたはまるであおいのよう！後方支援が得意なので無理して前に出なくても大丈夫！多くの人をサポートしてね！</p><p class="genre">そんなあなたにおすすめの料理は<span class="strong">『イタリアン』</span>だ！</p><img src="img/shita.png" alt="下矢印" id="shita">');
+				$("#freeword").val("イタリアン");
+      }
+    }
+    
+    //レーダーチャート
+  var ctx = document.getElementById("myRadarChart");
+  var myRadarChart = new Chart(ctx, {
+  //グラフの種類
+  type: 'radar',
+  //データの設定
+  data: {
+  //データ項目のラベル
+    labels: ["恐怖", "怒り", "幸福", "驚き", "中立", "悲観"],
+    //データセット
+    datasets: [
+      {
+        label: "あなたの感情レーダー",
+        //背景色
+        backgroundColor: "rgba(200,112,126,0.5)",
+        //枠線の色
+        borderColor: "rgba(200,112,126,1)",
+        //結合点の背景色
+        pointBackgroundColor: "rgba(200,112,126,1)",
+        //結合点の枠線の色
+        pointBorderColor: "#fff",
+        //結合点の背景色（ホバ時）
+        pointHoverBackgroundColor: "#fff",
+        //結合点の枠線の色（ホバー時）
+        pointHoverBorderColor: "rgba(200,112,126,1)",
+        //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
+        hitRadius: 5,
+        //グラフのデータ
+        data: [fear,anger,happiness,surprise,neutral,sadness]
+      }
+    ]
+  },
+  options: {
+    // レスポンシブ指定
+    responsive: true,
+    scale: {
+      ticks: {
+        // 最小値の値を0指定
+        beginAtZero:true,
+        min: 0,
+        // 最大値を指定
+        max: 1,
+      }
+    }
+  }
+  });
+  //矢印点滅
+// 点滅用クラス
+function shita(id){
+    // IDをチェック
+    const $ele = $(id);
+    if($ele.length == 0) return;
+    // 1秒間隔で透明度を切り替え
+    $ele.animate( { opacity: 'toggle',}, { duration: 1000, easing: 'linear', } )
+
+    // 0.5秒後にshitaを再実行
+    setTimeout(function(elemId){
+      shita(elemId);
+    }, 500, id);
+}
+$(function(){ 
+  shita("#shita");
+});
+
+})
+
+	.fail(function (jqXHR, textStatus, errorThrown) {
+		// Display error message.
+		var errorString = (errorThrown === "") ?
+		"Error. " : errorThrown + " (" + jqXHR.status + "): ";
+		errorString += (jqXHR.responseText === "") ?
+		"" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+				jQuery.parseJSON(jqXHR.responseText).message :
+				jQuery.parseJSON(jqXHR.responseText).error.message;
+		alert(errorString);
+	});
+};
+
+
+
+//****************************************************************************************
+// BingMaps&BmapQuery
+//****************************************************************************************
+//Init
+let lat;
+let lon;
+let pin;
+let pinlat;
+let pinlon;
+function GetMap(){
+//------------------------------------------------------------------------
+//1. Instance
+//------------------------------------------------------------------------
+  const map = new Bmap("#myMap");
+
+  //------------------------------------------------------------------------
+//2. geolocation: Display Map
+//   map.geolocation(function(data:object){...});
+//------------------------------------------------------------------------
+
+  map.geolocation(function(data) {
+    //location
+    lat = data.coords.latitude;
+    lon = data.coords.longitude;
+    //Map
+    map.startMap(lat, lon, "load", 18);
+    //クリック時にgeocode取得
+    map.onGeocode("click", function(data){
+        map.deletePin();
+        console.log(data);                   //Get Geocode ObjectData
+        const lat = data.location.latitude;  //Get latitude
+        const lon = data.location.longitude; //Get longitude
+        // document.querySelector("#geocode").innerHTML=lat+','+lon;
+        pin = map.pin(lat, lon, "#ff00ff")
+        pinlat = pin.geometry.y;
+        pinlon = pin.geometry.x;
+    });
+  });
+
+
+//*****************************************************
+// Click Event
+// ぐるなびAPIへデータRequest → APIサーバーからresponseデータ取得
+//*****************************************************
+
+  $("#btn").on("click", function() {
+  //pinを初期化
+  map.deletePin();
+  //結果表示を初期化
+  $("#result").empty();
+
+  //check boxの処理
+  let lnh = $("[id=lunch]:checked").val();
+  if(lnh=="1"){
+    lnh = "1";
+  }else{
+    lnh = "0";
+  }
+  
+  let nsk = $("[id=no_smoking]:checked").val();
+  if(nsk=="1"){
+    nsk = "1";
+  }else{
+    nsk = "0";
+  }
+  let cd = $("[id=card]:checked").val();
+  if(cd=="1"){
+    cd = "1";
+  }else{
+    cd = "0";
+  }
+  let blc = $("[id=bottomless_cup]:checked").val();
+  if(blc=="1"){
+    blc = "1";
+  }else{
+    blc = "0";
+  }
+  let pr = $("[id=private_room]:checked").val();
+  if(pr=="1"){
+    pr = "1";
+  }else{
+    pr = "0";
+  }
+  let km = $("[id=kids_menu]:checked").val();
+  if(km=="1"){
+    km = "1";
+  }else{
+    km = "0";
+  }
+  let wf = $("[id=wifi]:checked").val();
+  if(wf=="1"){
+    wf = "1";
+  }else{
+    wf = "0";
+  }
+  let em = $("[id=e_money]:checked").val();
+  if(em=="1"){
+    em = "1";
+  }else{
+    em = "0";
+  }
+  let del = $("[id=deliverly]:checked").val();
+  if(del=="1"){
+    del = "1";
+  }else{
+    del = "0";
+  }
+
+  if(pinlat===undefined){
+    pinlat = lat;
+  }
+  if(pinlon===undefined){
+    pinlon = lon;
+  }
+
+  console.log(pinlat);
+//送信データをObject変数で用意
+//参考URL:https://api.gnavi.co.jp/api/manual/restsearch/
+  const data = {
+    keyid:"f9d26656ec7265e72e25826dcd671973",
+    latitude:pinlat,
+    longitude:pinlon,
+    lunch: lnh,
+    no_smoking: nsk,
+    card: cd,
+    bottomless_cup: blc,
+    private_room: pr,
+    kids_menu: km,
+    wifi: wf,
+    e_money: em,
+    deliverly: del,
+    freeword: $("#freeword").val(),
+    hit_per_page:20,
+    range:3
+  };
+
+  console.log(data);
+
+  //Ajax（非同期通信）
+  axios.get('https://api.gnavi.co.jp/RestSearchAPI/v3/', {
+    params:data
+  })
+  .then(function (response) {
+  //データ受信成功！！showData関数にデータを渡す
+    showData(response.data);
+  }).catch(function (error) {
+    console.log(error);//通信Error
+  }).then(function () {
+  //console.log("Last");//通信OK/Error後に処理を必ずさせたい場合
+  });
+});
+
+//*****************************************************
+//ぐるなびデータ表示処理
+//*****************************************************
+function showData(data){
+//データ確認用
+  console.log(data.rest);
+//データを繰り返し処理で取得
+  const len  = data.rest.length; //データ数を取得
+  for( let i=0; i<len; i++){
+    // map.infobox(data.rest[i].latitude,data.rest[i].longitude,data.rest[i].name, data.rest[i].opentime);
+    map.pinText(data.rest[i].latitude,data.rest[i].longitude, data.rest[i].name, " ", String(i+1));
+    if(data.rest[i].image_url.shop_image1==""){
+      $("#result").append('<div class="resultWrapper"><div class="shopImg"><img src="img/noimage.png" alt="店舗画像"></div><div class="detail"><p class="shopName">'+String(i+1)+'.'+data.rest[i].name+'<button class="shopUrl"><a href="'+data.rest[i].url+'" target="_blank">URL</a></button></p><p class="shopDetail">'+data.rest[i].opentime+'</p><p class="shopTel">'+data.rest[i].tel+'</p><p class="shopAddress">'+data.rest[i].address+'</p></div></div>');
+    }else{
+      $("#result").append('<div class="resultWrapper"><div class="shopImg"><img src="'+data.rest[i].image_url.shop_image1+'" alt="店舗画像"></div><div class="detail"><p class="shopName">'+String(i+1)+'.'+data.rest[i].name+'<button class="shopUrl"><a href="'+data.rest[i].url+'" target="_blank">URL</a></button></p><p class="shopDetail">'+data.rest[i].opentime+'</p><p class="shopTel">'+data.rest[i].tel+'</p><p class="shopAddress">'+data.rest[i].address+'</p></div></div>');
+    }
+  };
+}
+}
+
+//クリアボタン
+$("#btn_c").on("click", function(){
+  const lun = document.getElementById("lunch");
+  lun.checked = false;
+  const smo = document.getElementById("no_smoking");
+  smo.checked = false;
+  const card = document.getElementById("card");
+  card.checked = false;
+  const bc = document.getElementById("bottomless_cup");
+  bc.checked = false;
+  const pr = document.getElementById("private_room");
+  pr.checked = false;
+  const km = document.getElementById("kids_menu");
+  km.checked = false;
+  const wifi = document.getElementById("wifi");
+  wifi.checked = false;
+  const em = document.getElementById("e_money");
+  em.checked = false;
+  const del = document.getElementById("deliverly");
+  del.checked = false;
+  const fw = document.getElementById("freeword");
+  fw.value = "";
+});
+
+
+//*****************************************************
+// Click Event
+// ぐるなびAPIへデータRequest → APIサーバーからresponseデータ取得
+//*****************************************************
+// $("#btn").on("click", function() {
+// //送信データをObject変数で用意
+// //参考URL:https://api.gnavi.co.jp/api/manual/restsearch/
+//   const data = {
+//     keyid:$("#key").val(),
+//     latitude:lat,
+//     longitude:lon,
+//     // latitude:$("#lat").val(),
+//     // longitude:$("#lon").val(),
+//     range:3
+//   };
+//   //Ajax（非同期通信）
+//   axios.get('https://api.gnavi.co.jp/RestSearchAPI/v3/', {
+//     params:data
+//   })
+//   .then(function (response) {
+//   //データ受信成功！！showData関数にデータを渡す
+//     showData(response.data);
+//   }).catch(function (error) {
+//     console.log(error);//通信Error
+//   }).then(function () {
+//   //console.log("Last");//通信OK/Error後に処理を必ずさせたい場合
+//   });
+// });
+
+// //*****************************************************
+// //ぐるなびデータ表示処理
+// //*****************************************************
+// function showData(data){
+// //データ確認用
+//   console.log(data.rest);
+
+// //データを繰り返し処理で取得
+//   const len  = data.rest.length; //データ数を取得
+//   for( let i=0; i<len; i++){
+//     $("#table").append('<tr><td>' + data.rest[i].name + '</td><td>' + data.rest[i].opentime + '</td><td>' + data.rest[i].latitude + '</td><td>' + data.rest[i].longitude + '</td></tr>');
+//   };
+// }
+
+
+</script>
+<footer class="ftr">created by Takuchan of G'sACADEMIY UNIT_SAPPORO_DEV1</footer>
+</body>
+</html>
