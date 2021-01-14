@@ -1,0 +1,450 @@
+@charset "utf-8";
+html{
+    font-size: 62.5%;
+}
+
+body{
+    color: #333333;
+    font-family:"Open Sans",'ヒラギノ角ゴ ProN W3', Hiragino Kaku Gothic ProN, "メイリオ", Meiryo, sans-serif;
+    font-size: 1.6rem;
+    padding-top: 70px;
+}
+
+.loginBody{
+  padding-top: initial;
+}
+
+/* header */
+
+header{
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
+.headerWrapper{
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 30px;
+  border-bottom: solid 1px #CCD1D9;
+}
+
+.headerWrapper p{
+  margin: 0 10px 0;
+}
+
+.navLeft{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navRight{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 0 auto;
+}
+
+.qButton{
+  background-color: #4FC1E9;
+  border-color: #4FC1E9;
+  border: 1px solid transparent;
+  padding: 12px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1.6rem;
+}
+
+.qButton:hover{
+  background-color: #3BAFDA;
+  border-color: #3BAFDA;
+}
+
+.qButton>a{
+  color: #fff;
+}
+
+.qListqButton{
+  border: 1px solid #4FC1E9;
+  padding: 12px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1.6rem;
+}
+
+.qListqButton:hover{
+  background-color: #f0f0f0;
+  border-color: #3BAFDA;
+}
+
+.qListqButton>a{
+  color: #4FC1E9;
+}
+
+.search_container{
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid #999;
+  display: block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  height: 2.3em;
+  width: 260px;
+  overflow: hidden;
+  margin: 0 20px 0;
+}
+.search_container input[type="text"]{
+  border: none;
+  height: 2.0em;
+}
+.search_container input[type="text"]:focus {
+  outline: 0;
+}
+.search_container input[type="submit"]{
+  cursor: pointer;
+  font-family: FontAwesome;
+  font-size: 1.3em;
+  border: none;
+  background: none;
+  color: #4FC1E9;
+  position: absolute;
+  width: 2.5em;
+  height: 2.5em;
+  right: 0;
+  top: -10px;
+  outline : none;
+}
+
+
+/* login.php */
+
+.loginTitle{
+  margin: 0 0 20px 0;
+  font-size: 2.0rem;
+  text-align: center;
+  background-color: #effaff;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 100px;
+}
+
+.jumbotron{
+  width: 80%;
+  margin: 0 auto 100px;
+  max-width: 800px;
+  background-color: #effaff;
+  padding: 30px 0;
+}
+
+.loginField{
+  text-align: center;
+  padding: 20px 0;
+}
+
+.textForm{
+  border: solid 1px #CCD1D9; 
+  border-radius: 5px;
+  font-size: 1.4rem;
+  padding: 5px;
+  width: 70%;
+  margin: 0 30px 15px 30px;
+  background-color: #fff;
+}
+
+.textForm::placeholder{
+  color: #656D78;
+}
+
+.btn{
+  background-color: #4FC1E9;
+  border-color: #4FC1E9;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 5px 0 15px 0;
+}
+
+.btn:hover{
+  background-color: #3BAFDA;
+  border-color: #3BAFDA;
+}
+
+.kochira>a{
+  color: #5D9CEC;
+}
+
+.kochira>a:hover{
+  color: #4A89DC;
+}
+
+/* redistry.php */
+
+.rediJumbotron{
+  width: 80%;
+  margin: 0 auto 100px;
+  max-width: 1000px;
+  background-color: #effaff;
+  padding: 30px 0;
+}
+
+.form-inner{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 30px;
+}
+
+.rediTextForm{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-sizing: border-box;
+  border: solid 1px #CCD1D9; 
+  border-radius: 5px;
+  font-size: 1.4rem;
+  padding: 5px;
+  width: 75%;
+  margin: 0 30px 15px 30px;
+  background-color: #fff;
+}
+
+.form-title{
+  width: 180px;
+  margin: 0 24px 0 0;
+  padding: 8px 0 0 0;
+  font-family:"Open Sans",'ヒラギノ角ゴ ProN W6', Hiragino Kaku Gothic ProN, "メイリオ", Meiryo, sans-serif;
+  text-align: right;
+}
+
+.form-item{
+  width: 70%;
+  margin: 0 0 24px;
+}
+
+.file{
+  margin: 0 0 20px 30px;
+}
+
+.btn-c{
+  text-align: center;
+}
+
+/* index.php */
+
+.indexWrapper{
+  width: 80%;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 30px 0;
+}
+
+.date{
+  font-size: 1.0rem;
+  color: #656D78;
+  padding: 0 0 15px 0;
+  margin: 0 0 0 20px;
+}
+
+.indexTitle{
+  margin: 0 0 20px 20px;
+  padding: 0 0 5px 0;
+  font-size: 1.8rem;
+}
+
+.hover{
+  border-bottom: solid 1px #CCD1D9; 
+  margin: 0 0 20px 0;
+}
+
+.hover:hover{
+  box-shadow: 0 10px 20px -5px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+  /* background-color: white;  */
+  transition: all .3s ease;
+}
+
+.more{
+  text-align: center;
+  margin: 20px 0;
+}
+
+.open-btn{
+  background-color: #4FC1E9;
+  border-color: #4FC1E9;
+  border: 1px solid transparent;
+  padding: 12px 12px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 5px 0 15px 0;
+}
+
+.open-btn:hover{
+  background-color: #3BAFDA;
+  border-color: #3BAFDA;
+}
+
+/* question.php */
+
+.qtnTextForm{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-sizing: border-box;
+  border: solid 1px #CCD1D9; 
+  border-radius: 5px;
+  font-size: 1.4rem;
+  padding: 5px;
+  width: 75%;
+  margin: 0 30px 15px 30px;
+  background-color: #fff;  
+}
+
+textarea{
+  font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+}
+
+.qtnJumbotron{
+  width: 80%;
+  margin: 0 auto 100px;
+  max-width: 1000px;
+  background-color: #effaff;
+  padding: 30px 0;
+}
+
+/* detail.php */
+
+.dtlMainWrapper{
+  margin: 30px auto 0;
+  max-width: 1000px;
+  width: 80%;
+  border-bottom: solid 1px #CCD1D9;
+  padding: 0 0 50px;
+}
+
+.dtlDate{
+  font-size: 1.0rem;
+  color: #656D78;
+  margin: 0 0 10px 20px;
+}
+
+.dtlTitle{
+  font-size: 1.8rem;
+  margin: 0 0 10px 20px;
+}
+
+.dtlName{
+  margin: 0 0 20px 20px;
+  text-align: right;
+  font-size: 1.4rem;
+}
+
+.dtlComment{
+  margin: 0 0 20px 20px;
+  font-size: 1.8rem;
+  line-height: 1.5;
+}
+
+.dtlTag{
+  margin: 0 0 20px 20px;
+}
+
+.dtlTag>a{
+  color: #5D9CEC;
+  border-bottom: solid 1px #5D9CEC;
+}
+
+.dtlTag>a:hover{
+  color: #4A89DC;
+  border-bottom: solid 1px #4A89DC;
+}
+
+.asrButtonWrapper{
+  display: block;
+  margin: 0 0 0 auto;
+}
+
+.asrButton{
+  background-color: #4FC1E9;
+  border-color: #4FC1E9;
+  border: 1px solid transparent;
+  padding: 12px 12px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.asrButton:hover{
+  background-color: #3BAFDA;
+  border-color: #3BAFDA;
+}
+
+.asrWrapper{
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 80%;
+  padding: 0 5px;
+}
+
+.answer{
+  border-bottom: solid 1px #CCD1D9;
+  padding: 20px 0 ;
+}
+
+.asrDate{
+  font-size: 0.8rem;
+  color: #656D78;
+  margin: 0 0 10px 20px;
+}
+
+.asrTitle{
+  font-size: 1.8rem;
+  margin: 0 0 10px 20px;
+}
+
+.asrComment{
+  margin: 0 20px 20px;
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
+.asrJumbotron{
+  width: 80%;
+  margin: 50px auto 100px;
+  max-width: 1000px;
+  background-color: #effaff;
+  padding: 50px 0 30px;
+}
+
+/* mypage.php */
+
+.mpgJumbotron{
+  width: 80%;
+  margin: 50px auto 50px;
+  max-width: 1000px;
+  background-color: #effaff;
+  padding: 30px 0;
+}
+
+.mypageTitle{
+  margin: 0 0 20px 20px ;
+}
+
+.mpgImg{
+  margin: 0 0 10px 30px ;
+}
